@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">KiokuryokuGame</string>
+    <string name="game_start">ゲームスタート!</string>
+    <string name="record">あなたの最高記録は%1$d回です！</string>
+    <string name="current_record">Current Record: %1$d</string>
+    <string name="best_record">Best Record: %1$d</string>
+</resources>
