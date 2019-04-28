@@ -5,17 +5,19 @@
             android:state_focused="true"
             android:state_enabled="true"
             android:state_pressed="false">
-        <!--<bitmap android:src=""/>-->
+        <bitmap android:src="@drawable/bird_clicked"/>
     </item>
     <!--タップ状態-->
     <item
             android:state_focused="true"
             android:state_enabled="true"
             android:state_pressed="true">
+        <bitmap android:src="@drawable/bird_clicked"/>
         <!--<bitmap android:src=""/>-->
     </item>
     <!--通常状態-->
     <item>
         <!--<bitmap android:src=""/>-->
+        <bitmap android:src="@drawable/bird_normal"/>
     </item>
 </selector>
