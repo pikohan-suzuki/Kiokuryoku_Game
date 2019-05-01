@@ -5,4 +5,5 @@
     <string name="current_record">Current Record: %1$d</string>
     <string name="best_record">Best Record: %1$d</string>
     <string name="level_popup">Level %1$d</string>
+    <string name="new_record">%1$d</string>
 </resources>
