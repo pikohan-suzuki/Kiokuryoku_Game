@@ -31,6 +31,7 @@ class InformationDialog() : DialogFragment(){
         }
         val dialogBuilder = AlertDialog.Builder(activity)
         dialogBuilder.setView(alertView)
+        this.isCancelable=false
         return dialogBuilder.create()
     }
 }
