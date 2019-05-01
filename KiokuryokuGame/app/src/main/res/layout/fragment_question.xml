@@ -1,82 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/question_front_framelayout">
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-                                             android:background="@drawable/game_background"
-                                             >
+            android:background="@drawable/game_background"
+    >
 
-    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:id="@+id/guideline6"
-                                          android:orientation="horizontal"
-                                          app:layout_constraintGuide_percent="0.5"/>
-    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:id="@+id/guideline5"
-                                          android:orientation="vertical" app:layout_constraintGuide_percent="0.5"/>
-    <TextView
-            android:text="@string/level_popup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/current_record"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:textSize="18sp" android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            android:textColor="#ff0000" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/best_record" app:layout_constraintVertical_bias="0.0"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/best_record"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:text="@string/best_record"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/current_record" app:layout_constraintHorizontal_bias="1.0"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/current_record"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0" android:textColor="@color/colorBlack"
-            app:layout_constraintTop_toTopOf="parent"/>
-    <ImageView
-            android:layout_width="82dp"
-            android:layout_height="82dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/green_image"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:src="@drawable/blue_button_background"/>
-    <ImageView
-            android:layout_width="82dp"
-            android:layout_height="82dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/blue_image"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline5" app:layout_constraintHorizontal_bias="1.0"/>
-    <ImageView
-            android:layout_width="82dp"
-            android:layout_height="82dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/orange_image"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1.0" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    <ImageView
-            android:layout_width="82dp"
-            android:layout_height="82dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/red_image"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:id="@+id/guideline6"
+                                              android:orientation="horizontal"
+                                              app:layout_constraintGuide_percent="0.5"/>
+        <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:id="@+id/guideline5"
+                                              android:orientation="vertical" app:layout_constraintGuide_percent="0.5"/>
+        <TextView
+                android:text="@string/level_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/current_record"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:textSize="18sp" android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:textColor="#ff0000" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/best_record" app:layout_constraintVertical_bias="0.0"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/best_record"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:text="@string/best_record"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/current_record" app:layout_constraintHorizontal_bias="1.0"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/current_record"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.0" android:textColor="@color/colorBlack"
+                app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" app:srcCompat="@drawable/house_usual"
+                android:id="@+id/house_image"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="@+id/guideline6"/>
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>
