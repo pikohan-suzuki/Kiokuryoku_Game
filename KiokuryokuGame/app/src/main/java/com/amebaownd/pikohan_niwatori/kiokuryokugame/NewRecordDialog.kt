@@ -10,22 +10,16 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 
 class NewRecordDialog:DialogFragment(){
     lateinit var ctx : Context
+    var record :Int=0
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertView: View = activity!!.layoutInflater.inflate(R.layout.fragment_information,null)
-        val okButton = alertView.findViewById<Button>(R.id.information_ok)
-        okButton.setOnClickListener{
-            val result= Intent()
-            val pendingIntent =activity!!.createPendingResult(targetRequestCode,result, PendingIntent.FLAG_ONE_SHOT)
-            try{
-                pendingIntent.send(Activity.RESULT_OK)
-            }catch (ex: PendingIntent.CanceledException){
-                ex.printStackTrace()
-            }
-            dialog.dismiss()
-        }
+        val alertView: View = activity!!.layoutInflater.inflate(R.layout.dialog_new_record,null)
+        val okButton = alertView.findViewById<Button>(R.id.new_record_ok)
+        alertView.findViewById<TextView>(R.id.new_record).text=getString(R.string.new_record,record)
+        okButton.setOnClickListener{ dialog.dismiss() }
         val dialogBuilder = AlertDialog.Builder(activity)
         dialogBuilder.setView(alertView)
         return dialogBuilder.create()
