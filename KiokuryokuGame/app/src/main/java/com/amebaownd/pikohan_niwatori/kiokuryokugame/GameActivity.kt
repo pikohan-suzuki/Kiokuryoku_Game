@@ -3,21 +3,17 @@ package com.amebaownd.pikohan_niwatori.kiokuryokugame
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_controller.*
-import java.lang.Thread.sleep
 import java.util.*
 
 class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListener {
 
     lateinit var sound: Sound
     private var bestRecord = 0
-    var currentRecord = 0
+    private var currentRecord = 0
     private var questionFragment: QuestionFragment? = null
     private var controllerFragment: ControllerFragment? = null
 
@@ -37,32 +33,29 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
                 .add(R.id.controller_frameLayout, newControllerFragment(), "ControllerFragment")
                 .commit()
         }
-
-
-
-        findViewById<Button>(R.id.test_button).setOnClickListener {
-            val dialog = MakeTestDialog(this)
-            dialog.showDialog(201, supportFragmentManager)
-        }
     }
 
     override fun onResume() {
         super.onResume()
+        setUnclickable()
         if (questionFragment == null) {
             questionFragment = supportFragmentManager.findFragmentByTag("QuestionFragment") as QuestionFragment
             controllerFragment = supportFragmentManager.findFragmentByTag("ControllerFragment") as ControllerFragment
             sound = Sound(
                 this,
                 listOf<ImageView>(
-                    findViewById(R.id.blue_button),
-                    findViewById(R.id.red_button),
-                    findViewById(R.id.green_button),
-                    findViewById(R.id.orange_button)
+                    findViewById(R.id.cat_image),
+                    findViewById(R.id.dog_image),
+                    findViewById(R.id.bird_image),
+                    findViewById(R.id.sheep_image)
                 )
             )
             sound.load()
-            val dialog = MakeTestDialog(this)
+            val dialog = DialogManager(this)
             dialog.showDialog(201, supportFragmentManager)
+        }else if(currentRecord!=0){
+            sound.load()
+            question(currentRecord+1)
         }
     }
 
@@ -75,15 +68,12 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
         questionFragment!!.proposingQuestion(questionList, sound)
     }
 
+
     override fun onStop() {
         super.onStop()
         sound.unload()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        sound.unload()
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 201 && resultCode == Activity.RESULT_OK) {
@@ -91,8 +81,10 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
         } else if (requestCode == 202 && resultCode == Activity.RESULT_OK) {
             question(currentRecord + 1)
         } else if (requestCode == 204 && resultCode == Activity.RESULT_OK) {
-            TODO("start game")
+            continueGame()
         } else if (requestCode == 204 && resultCode == Activity.RESULT_CANCELED) {
+            val intent = Intent()
+            setResult(Activity.RESULT_OK,intent)
             finish()
         }
     }
@@ -100,16 +92,16 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
     override fun onButtonClicked(view: View) {
         var response = 0
         when (view.id) {
-            R.id.red_button -> {
+            R.id.dog_image -> {
                 response = questionFragment!!.answer(0, sound,currentRecord)
             }
-            R.id.blue_button -> {
+            R.id.cat_image -> {
                 response = questionFragment!!.answer(1, sound,currentRecord)
             }
-            R.id.green_button -> {
+            R.id.bird_image -> {
                 response = questionFragment!!.answer(2, sound,currentRecord)
             }
-            R.id.orange_button -> {
+            R.id.sheep_image -> {
                 response = questionFragment!!.answer(3, sound,currentRecord)
             }
         }
@@ -117,9 +109,11 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
         if (response == 1) {
             currentRecord++
             showLevel(currentRecord)
-            question(currentRecord + 1)
             setUnclickable()
+            question(currentRecord + 1)
+
         } else if (response == -1) {
+            setUnclickable()
             endGame(currentRecord, bestRecord)
         }
 
@@ -133,23 +127,47 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
 
     private fun newRecord(record: Int) {
         writeFile(this, "bestRecord", record.toString())
+        questionFragment?.setBestRecord(record)
+        val dialog=DialogManager(this,currentRecord)
+        dialog.showDialog(203,supportFragmentManager)
     }
 
     private fun endGame(record: Int, bestRecord: Int) {
+        val dialog = DialogManager(this,currentRecord)
+        dialog.showDialog(204, supportFragmentManager)
         if (record > bestRecord)
             newRecord(record)
-        val dialog = MakeTestDialog(this)
-        dialog.showDialog(204, supportFragmentManager)
     }
+    private fun continueGame(){
+        currentRecord=0
+        questionFragment!!.setCurrentRecord(-1)
+        question(currentRecord+1)
 
+    }
     private fun setPopup(id: Int) {
 
     }
 
     private fun setUnclickable(){
-        findViewById<ImageView>(R.id.blue_button).isClickable=false
-        findViewById<ImageView>(R.id.red_button).isClickable=false
-        findViewById<ImageView>(R.id.green_button).isClickable=false
-        findViewById<ImageView>(R.id.orange_button).isClickable=false
+        findViewById<ImageView>(R.id.cat_image).isClickable=false
+        findViewById<ImageView>(R.id.dog_image).isClickable=false
+        findViewById<ImageView>(R.id.bird_image).isClickable=false
+        findViewById<ImageView>(R.id.sheep_image).isClickable=false
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.putInt("currentRecord",currentRecord)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentRecord= savedInstanceState?.getInt("currentRecord") ?: 0
     }
 }
