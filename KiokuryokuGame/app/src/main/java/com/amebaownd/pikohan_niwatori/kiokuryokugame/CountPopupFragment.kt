@@ -7,24 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-class CountPopupFragment():Fragment(){
-    lateinit var countTextView:TextView
+class CountPopupFragment(): Fragment() {
+    lateinit var levelTextView:TextView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_count_popup,container,false)
-        val level =arguments?.getInt("level") ?: 1
-        countTextView=view.findViewById<TextView>(R.id.count_popup)
-        countTextView.text=getString(R.string.level_popup,level)
         return view
     }
+
     fun setLevel(level:Int){
-        countTextView.text=getString(R.string.level_popup,level)
+        levelTextView.text=getString(R.string.level_popup,level)
     }
 }
-fun newCountPopupFragment(level: Int): CountPopupFragment {
+fun  newCountPopupFragment(level:Int):CountPopupFragment{
     val fragment = CountPopupFragment()
     val bundle = Bundle()
     bundle.putInt("level", level)
     fragment.arguments = bundle
     return fragment
 }
-
+//
+//class SetCountPopup():Async
