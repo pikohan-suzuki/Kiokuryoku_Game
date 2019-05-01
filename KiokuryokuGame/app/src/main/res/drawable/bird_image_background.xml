@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--フォーカス状態-->
-    <item
-            android:state_focused="true"
-            android:state_enabled="true"
-            android:state_pressed="false">
-        <bitmap android:src="@drawable/bird_clicked"/>
-    </item>
     <!--タップ状態-->
     <item
-            android:state_focused="true"
-            android:state_enabled="true"
             android:state_pressed="true">
         <bitmap android:src="@drawable/bird_clicked"/>
         <!--<bitmap android:src=""/>-->
