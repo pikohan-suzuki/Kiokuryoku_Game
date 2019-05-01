@@ -14,7 +14,7 @@ import android.view.View
 import android.widget.Button
 import java.lang.Thread.sleep
 
-class MakeTestDialog(context: Context,private val value:Int=0 ){
+class DialogManager(context: Context,private val value:Int=0 ){
     fun showDialog(requestCode: Int, manager: FragmentManager) {
         when (requestCode) {
             201 -> {
@@ -32,6 +32,7 @@ class MakeTestDialog(context: Context,private val value:Int=0 ){
             }
             203 -> {
                 val dialog: NewRecordDialog = NewRecordDialog()
+                dialog.record=value
                 dialog.setTargetFragment(null, requestCode)
                 dialog.show(manager, "newRecordDialog")
             }
