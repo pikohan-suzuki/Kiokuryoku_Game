@@ -1,6 +1,7 @@
 package com.amebaownd.pikohan_niwatori.kiokuryokugame
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.AsyncTask
@@ -34,15 +35,20 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
             3 -> soundPool.play(sheepSound, 1.0f, 1.0f, 1, 0, 1.0f)
         }
     }
-    fun playLast(id:Int){
+
+    fun playLast(id: Int) {
         val playOneSound =
             PlayOneSound(soundPool, arrayListOf(dogSound, catSound, birdSound, sheepSound))
         playOneSound.execute(id)
     }
 
-    fun question(questionMutableList: MutableList<Int>) {
-        val playQuestionSound =
-            PlayQuestionSound(soundPool, arrayListOf(dogSound, catSound, birdSound, sheepSound), testTextView)
+    fun question(questionMutableList: MutableList<Int>,houseImageView: ImageView) {
+        val playQuestionSound = PlayQuestionSound(
+            soundPool,
+            arrayListOf(dogSound, catSound, birdSound, sheepSound),
+            testTextView,
+            houseImageView
+        )
         playQuestionSound.execute(*questionMutableList.toTypedArray())
     }
 
@@ -61,26 +67,34 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
         birdSound = soundPool.load(context, R.raw.bird, 1)
         sheepSound = soundPool.load(context, R.raw.sheep, 1)
     }
+
     class PlayOneSound(
         private val soundPool: SoundPool,
         private val soundList: ArrayList<Int>
     ) : AsyncTask<Int, Int, Int>() {
         override fun doInBackground(vararg id: Int?): Int {
-                when (id[0]) {
-                    0 -> soundPool.play(soundList[0], 1.0f, 1.0f, 1, 0, 1.0f)
-                    1 -> soundPool.play(soundList[1], 1.0f, 1.0f, 1, 0, 1.0f)
-                    2 -> soundPool.play(soundList[2], 1.0f, 1.0f, 1, 0, 1.0f)
-                    3 -> soundPool.play(soundList[3], 1.0f, 1.0f, 1, 0, 1.0f)
-                }
-                sleep(1500)
+            when (id[0]) {
+                0 -> soundPool.play(soundList[0], 1.0f, 1.0f, 1, 0, 1.0f)
+                1 -> soundPool.play(soundList[1], 1.0f, 1.0f, 1, 0, 1.0f)
+                2 -> soundPool.play(soundList[2], 1.0f, 1.0f, 1, 0, 1.0f)
+                3 -> soundPool.play(soundList[3], 1.0f, 1.0f, 1, 0, 1.0f)
+            }
+            sleep(1500)
             return 0
         }
     }
+
+
     class PlayQuestionSound(
         private val soundPool: SoundPool,
         private val soundList: ArrayList<Int>,
-        private val textViewList: List<ImageView>
+        private val controllerTextViewList: List<ImageView>,
+        private val houseImageView: ImageView
     ) : AsyncTask<Int, Int, Int>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            houseImageView.setImageResource(R.drawable.house_playing)
+        }
         override fun doInBackground(vararg id: Int?): Int {
             for (i in 0 until id.size) {
                 when (id[i]) {
@@ -89,14 +103,19 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
                     2 -> soundPool.play(soundList[2], 1.0f, 1.0f, 1, 0, 1.0f)
                     3 -> soundPool.play(soundList[3], 1.0f, 1.0f, 1, 0, 1.0f)
                 }
-                sleep(1500)
+                if(i==id.size-1)
+                sleep(500)
+                else
+                    sleep(1500)
             }
             return 0
         }
 
         override fun onPostExecute(result: Int?) {
             super.onPostExecute(result)
-            textViewList.forEach { it.isClickable = true }
+            controllerTextViewList.forEach { it.isClickable = true }
+            houseImageView.setImageResource(R.drawable.house_usual)
         }
     }
+
 }
