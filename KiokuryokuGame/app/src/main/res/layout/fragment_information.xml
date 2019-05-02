@@ -6,7 +6,7 @@
         android:layout_height="wrap_content">
 
     <Button
-            android:text="OK!"
+            android:text="@string/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/information_ok" android:layout_marginTop="8dp"
