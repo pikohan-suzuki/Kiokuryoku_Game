@@ -9,7 +9,8 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var startButton: Button
+    private lateinit var startButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val recordTextView = findViewById<TextView>(R.id.record_text)
         recordTextView.text=getString(R.string.record,record)
 
-        startButton = findViewById<Button>(R.id.start)
+        startButton = findViewById(R.id.start)
         startButton.setOnClickListener{
             it.isClickable=false
             val intent= Intent(this,GameActivity::class.java)
@@ -27,11 +28,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if(requestCode==101 && resultCode== Activity.RESULT_OK){
-            val record = intent.getIntExtra("record",0)
+            val record = intent?.getIntExtra("record",0)
             if(record!=0)
-                findViewById<TextView>(R.id.best_record).text=getString(R.string.best_record,record)
+                findViewById<TextView>(R.id.record_text).text=getString(R.string.record,record)
             startButton.isClickable=true
         }
     }

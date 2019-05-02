@@ -11,7 +11,7 @@ import java.util.*
 
 class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListener {
 
-    lateinit var sound: Sound
+    private lateinit var sound: Sound
     private var bestRecord = 0
     private var currentRecord = 0
     private var questionFragment: QuestionFragment? = null
@@ -37,13 +37,13 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
 
     override fun onResume() {
         super.onResume()
-        setUnclickable()
+        setUnClickable()
         if (questionFragment == null) {
             questionFragment = supportFragmentManager.findFragmentByTag("QuestionFragment") as QuestionFragment
             controllerFragment = supportFragmentManager.findFragmentByTag("ControllerFragment") as ControllerFragment
             sound = Sound(
                 this,
-                listOf<ImageView>(
+                listOf(
                     findViewById(R.id.cat_image),
                     findViewById(R.id.dog_image),
                     findViewById(R.id.bird_image),
@@ -51,29 +51,17 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
                 )
             )
             sound.load()
-            val dialog = DialogManager(this)
+            val dialog = DialogManager()
             dialog.showDialog(201, supportFragmentManager)
         }else if(currentRecord!=0){
             sound.load()
             question(currentRecord+1)
         }
     }
-
-    private fun question(count: Int) {
-        val questionList = mutableListOf<Int>()
-        val rand = Random(Date().time)
-        for (i in 0 until count) {
-            questionList.add(i, rand.nextInt(4))
-        }
-        questionFragment!!.proposingQuestion(questionList, sound)
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentRecord= savedInstanceState?.getInt("currentRecord") ?: 0
     }
-
-
-    override fun onStop() {
-        super.onStop()
-        sound.unload()
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 201 && resultCode == Activity.RESULT_OK) {
@@ -84,11 +72,19 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
             continueGame()
         } else if (requestCode == 204 && resultCode == Activity.RESULT_CANCELED) {
             val intent = Intent()
+            intent.putExtra("record",bestRecord)
             setResult(Activity.RESULT_OK,intent)
             finish()
         }
     }
-
+    private fun question(count: Int) {
+        val questionList = mutableListOf<Int>()
+        val rand = Random(Date().time)
+        for (i in 0 until count) {
+            questionList.add(i, rand.nextInt(4))
+        }
+        questionFragment!!.proposingQuestion(questionList, sound)
+    }
     override fun onButtonClicked(view: View) {
         var response = 0
         when (view.id) {
@@ -108,32 +104,25 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
 
         if (response == 1) {
             currentRecord++
-            showLevel(currentRecord)
-            setUnclickable()
+            setUnClickable()
             question(currentRecord + 1)
 
         } else if (response == -1) {
-            setUnclickable()
+            setUnClickable()
             endGame(currentRecord, bestRecord)
         }
 
     }
 
-    private fun showLevel(level: Int) {
-//        val countPopupDialog = MakeTestDialog(this,level)
-//        countPopupDialog.showDialog(202,supportFragmentManager)
-//        questionFragment!!.addLevel(currentRecord)
-    }
-
     private fun newRecord(record: Int) {
         writeFile(this, "bestRecord", record.toString())
+        bestRecord=record
         questionFragment?.setBestRecord(record)
-        val dialog=DialogManager(this,currentRecord)
+        val dialog=DialogManager(currentRecord)
         dialog.showDialog(203,supportFragmentManager)
     }
-
     private fun endGame(record: Int, bestRecord: Int) {
-        val dialog = DialogManager(this,currentRecord)
+        val dialog = DialogManager(currentRecord)
         dialog.showDialog(204, supportFragmentManager)
         if (record > bestRecord)
             newRecord(record)
@@ -144,30 +133,23 @@ class GameActivity : AppCompatActivity(), ControllerFragment.OnButtonClickListen
         question(currentRecord+1)
 
     }
-    private fun setPopup(id: Int) {
-
-    }
-
-    private fun setUnclickable(){
+    private fun setUnClickable(){
         findViewById<ImageView>(R.id.cat_image).isClickable=false
         findViewById<ImageView>(R.id.dog_image).isClickable=false
         findViewById<ImageView>(R.id.bird_image).isClickable=false
         findViewById<ImageView>(R.id.sheep_image).isClickable=false
     }
-
     override fun onBackPressed() {
         val intent = Intent()
         setResult(Activity.RESULT_OK,intent)
         finish()
     }
-
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         super.onSaveInstanceState(outState, outPersistentState)
         outState?.putInt("currentRecord",currentRecord)
     }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        currentRecord= savedInstanceState?.getInt("currentRecord") ?: 0
+    override fun onStop() {
+        super.onStop()
+        sound.unload()
     }
 }

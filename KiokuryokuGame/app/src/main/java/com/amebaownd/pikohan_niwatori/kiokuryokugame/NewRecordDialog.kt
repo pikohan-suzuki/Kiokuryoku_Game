@@ -1,11 +1,7 @@
 package com.amebaownd.pikohan_niwatori.kiokuryokugame
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.View
@@ -13,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 
 class NewRecordDialog:DialogFragment(){
-    lateinit var ctx : Context
     var record :Int=0
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertView: View = activity!!.layoutInflater.inflate(R.layout.dialog_new_record,null)

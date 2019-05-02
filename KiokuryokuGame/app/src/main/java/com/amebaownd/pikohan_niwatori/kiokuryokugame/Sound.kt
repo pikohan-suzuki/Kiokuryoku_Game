@@ -1,11 +1,10 @@
 package com.amebaownd.pikohan_niwatori.kiokuryokugame
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.AsyncTask
-import android.text.PrecomputedText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import java.lang.Thread.sleep
 
@@ -42,12 +41,13 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
         playOneSound.execute(id)
     }
 
-    fun question(questionMutableList: MutableList<Int>,houseImageView: ImageView) {
+    fun question(questionMutableList: MutableList<Int>,houseImageView: ImageView,frameLayout: FrameLayout) {
         val playQuestionSound = PlayQuestionSound(
             soundPool,
             arrayListOf(dogSound, catSound, birdSound, sheepSound),
             testTextView,
-            houseImageView
+            houseImageView,
+            frameLayout
         )
         playQuestionSound.execute(*questionMutableList.toTypedArray())
     }
@@ -89,11 +89,13 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
         private val soundPool: SoundPool,
         private val soundList: ArrayList<Int>,
         private val controllerTextViewList: List<ImageView>,
-        private val houseImageView: ImageView
+        private val houseImageView: ImageView,
+        private val frameLayout: FrameLayout
     ) : AsyncTask<Int, Int, Int>() {
         override fun onPreExecute() {
             super.onPreExecute()
             houseImageView.setImageResource(R.drawable.house_playing)
+
         }
         override fun doInBackground(vararg id: Int?): Int {
             for (i in 0 until id.size) {
@@ -115,6 +117,7 @@ class Sound(private val context: Context, private val testTextView: List<ImageVi
             super.onPostExecute(result)
             controllerTextViewList.forEach { it.isClickable = true }
             houseImageView.setImageResource(R.drawable.house_usual)
+            frameLayout.removeAllViews()
         }
     }
 

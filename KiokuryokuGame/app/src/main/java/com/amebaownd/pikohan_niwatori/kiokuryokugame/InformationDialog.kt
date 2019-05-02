@@ -8,13 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 
-class InformationDialog() : DialogFragment(){
+class InformationDialog : DialogFragment(){
     lateinit var ctx : Context
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertView:View = activity!!.layoutInflater.inflate(R.layout.fragment_information,null)

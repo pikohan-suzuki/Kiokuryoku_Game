@@ -1,6 +1,5 @@
 package com.amebaownd.pikohan_niwatori.kiokuryokugame
 
-import android.app.Application
 import android.content.Context
 import java.io.BufferedReader
 import java.io.File
