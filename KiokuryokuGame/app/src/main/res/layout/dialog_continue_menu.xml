@@ -21,9 +21,9 @@
             android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="@+id/result_record"
             app:layout_constraintBottom_toBottomOf="@+id/result_record" app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintVertical_bias="0.53999996"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:text="Record："/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:text="@string/record_before"/>
     <Button
-            android:text="もう一回"
+            android:text="@string/one_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/one_more" android:layout_marginTop="32dp"
@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline10" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"/>
     <Button
-            android:text="タイトルへ"
+            android:text="@string/go_to_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/back_to_title"
